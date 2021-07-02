@@ -2,7 +2,7 @@
 
 namespace JobsDashboard
 {
-    public class Class1
+    public class App
     {
     }
 }

@@ -9,4 +9,10 @@ namespace JobsDashboard.Console
             System.Console.WriteLine("Hello World!");
         }
     }
+
+     public class JobsDashboardApp {
+         public JobsDashboardApp(IReader reader, IWriter writer) {
+             
+         }
+     }
 }
