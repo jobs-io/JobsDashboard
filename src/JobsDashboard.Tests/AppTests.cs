@@ -2,6 +2,7 @@ using NUnit.Framework;
 using Moq;
 using JobsDashboard;
 using JobsDashboard.Core;
+using System.Collections.Generic;
 
 namespace JobsDashboard.Tests
 {
@@ -9,22 +10,26 @@ namespace JobsDashboard.Tests
     {
         private JobsDashboard.App app; 
         private JobsDashboard.Core.Feeds feeds;
+        private Mock<IFeed> feed;
     
         [SetUp]
         public void Setup()
         {
-            feeds = new JobsDashboard.Core.Feeds(null);
+            feed = new Mock<IFeed>();
+            var i = new Dictionary<string, IFeed>();
+            i.Add("feed", feed.Object);
+            feeds = new JobsDashboard.Core.Feeds(i);
             app = new App(feeds);
         }
 
         [Test]
         public void ShouldLoadFeedsWhenICallDownload()
         {
-            // this.feeds.Setup(x => x.Load());
+            this.feed.Setup(x => x.Load());
 
             app.Download();
 
-            // this.feeds.Verify(x => x.Load());
+            this.feed.Verify(x => x.Load());
         }
     }
 }

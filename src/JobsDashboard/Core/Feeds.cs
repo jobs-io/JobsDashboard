@@ -9,6 +9,10 @@ namespace JobsDashboard.Core
             this.feeds = feeds;
         }
 
-        public void Load() {}
+        public void Load() {
+            foreach(var key in this.feeds.Keys) {
+                this.feeds[key].Load();
+            }
+        }
     }
 }   
