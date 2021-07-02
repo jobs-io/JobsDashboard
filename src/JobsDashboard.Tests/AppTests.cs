@@ -19,7 +19,6 @@ namespace JobsDashboard.Tests
             var i = new Dictionary<string, IFeed>();
             i.Add("feed", feed.Object);
             feeds = new JobsDashboard.Core.Feeds(i);
-            app = new App(feeds);
         }
 
         [Test]
@@ -27,7 +26,7 @@ namespace JobsDashboard.Tests
         {
             this.feed.Setup(x => x.Load());
 
-            app.Download();
+            app = new App(feeds);
 
             this.feed.Verify(x => x.Load());
         }
