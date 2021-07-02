@@ -13,7 +13,7 @@ namespace JobsDashboard.Tests
         }
 
         [Test]
-        public void Test1()
+        public void Download()
         {
             app.Download();
         }
