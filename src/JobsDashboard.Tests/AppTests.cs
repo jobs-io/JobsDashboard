@@ -13,7 +13,7 @@ namespace JobsDashboard.Tests
         }
 
         [Test]
-        public void Download()
+        public void ShouldDownload()
         {
             app.Download();
         }
