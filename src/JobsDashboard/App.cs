@@ -1,9 +1,17 @@
 ﻿using System;
+using JobsDashboard.Core;
 
 namespace JobsDashboard
 {
     public class App
     {
-        public void Download() {}
+        private readonly Feeds feeds;
+        public App(Feeds feeds)
+        {
+            this.feeds = feeds;
+        }
+        public void Download() {
+            this.feeds.Load();
+        }
     }
 }
