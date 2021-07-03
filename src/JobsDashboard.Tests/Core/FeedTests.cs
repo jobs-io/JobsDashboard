@@ -21,5 +21,15 @@ namespace JobsDashboard.Tests.Core
 
             this.configuration.Verify(x => x.GetValue("source"), Times.Once);
         }
+
+        [Test]
+        public void ShouldGetPathToJobs() {
+            this.configuration.Setup(x => x.GetValue("pathToJobs"));
+
+            var feed = new Feed(configuration.Object);
+
+            this.configuration.Verify(x => x.GetValue("pathToJobs"), Times.Once);
+
+        }
     }
 }

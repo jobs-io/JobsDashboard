@@ -5,6 +5,7 @@ namespace JobsDashboard.Core
         public Feed(IConfiguration configuration)
         {
             configuration.GetValue("source");       
+            configuration.GetValue("pathToJobs");       
         }
     }
 }
