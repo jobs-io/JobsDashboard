@@ -14,7 +14,7 @@ namespace JobsDashboard.Tests.Core
         }
 
         [Test]
-        public void Go() {
+        public void ShouldGetSource() {
             this.configuration.Setup(x => x.GetValue("source"));
 
             var feed = new Feed(configuration.Object);
