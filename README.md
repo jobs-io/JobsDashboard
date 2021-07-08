@@ -25,3 +25,7 @@ public class JobSummary {
     public string Company;
 }
 ```
+
+### Dependencies
+
+* <https://github.com/jobs-io/data>
