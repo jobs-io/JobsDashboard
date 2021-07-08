@@ -1,13 +1,9 @@
-﻿using System;
-using JobsDashboard.Core;
-
-namespace JobsDashboard
+﻿namespace JobsDashboard
 {
     public class App
     {
-        public App(Feeds feeds)
+        public App()
         {
-            feeds.Load();
         }
     }
 }
