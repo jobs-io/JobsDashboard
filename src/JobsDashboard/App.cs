@@ -1,4 +1,7 @@
-﻿namespace JobsDashboard
+﻿using System.Collections.Generic;
+using JobsDashboard.Data;
+
+namespace JobsDashboard
 {
     public class App
     {
@@ -11,11 +14,12 @@
             this.source = source;
             this.httpClient = httpClient;
         }
-        public void GetJobs()
+        public IList<JobSummary> GetJobs()
         {
             if (dataStore.Exists(source)) 
-                return;
+                return new List<JobSummary>();
             httpClient.GetAsync(source);
+            return new List<JobSummary>();
         }
     }
 }
