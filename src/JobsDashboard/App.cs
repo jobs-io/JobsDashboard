@@ -1,15 +1,13 @@
-﻿namespace JobsDashboard
-{
-    public class App
-    {
+﻿namespace JobsDashboard {
+    public class App {
         private readonly IHttpClient httpClient;
-        public App(IHttpClient httpClient)
-        {
+        private readonly string source;
+        public App (IHttpClient httpClient, string source) {
+            this.source = source;
             this.httpClient = httpClient;
         }
-        public void GetJobs()
-        {
-            httpClient.GetAsync("");
+        public void GetJobs () {
+            httpClient.GetAsync (source);
         }
     }
 }

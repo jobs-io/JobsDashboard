@@ -17,11 +17,13 @@ namespace JobsDashboard.Tests
 
         [Test]
         public void ShouldGetJobs() {
-            httpClientMock.Setup(x => x.GetAsync(""));
-            
-            new App(httpClientMock.Object).GetJobs();
+            var source = "https://my-source/jobs";
 
-            httpClientMock.Verify(x => x.GetAsync(""));
+            httpClientMock.Setup(x => x.GetAsync(source));
+            
+            new App(httpClientMock.Object, source).GetJobs();
+
+            httpClientMock.Verify(x => x.GetAsync(source));
         }
     }
 }
