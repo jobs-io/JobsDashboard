@@ -14,12 +14,12 @@ namespace JobsDashboard
             this.source = source;
             this.httpClient = httpClient;
         }
-        public IList<JobSummary> GetJobs()
+        public Jobs GetJobs()
         {
             if (dataStore.Exists(source)) 
-                return new List<JobSummary>();
+                return new Jobs();
             httpClient.GetAsync(source);
-            return new List<JobSummary>();
+            return new Jobs();
         }
     }
 }
