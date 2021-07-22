@@ -5,5 +5,6 @@
         public App()
         {
         }
+        public void GetJobs() {}
     }
 }
