@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using JobsDashboard.Core;
 using JobsDashboard.Data;
 
 namespace JobsDashboard

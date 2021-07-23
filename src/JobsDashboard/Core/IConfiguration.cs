@@ -1,4 +1,4 @@
-namespace JobsDashboard
+namespace JobsDashboard.Core
 {
     public interface IConfiguration
     {

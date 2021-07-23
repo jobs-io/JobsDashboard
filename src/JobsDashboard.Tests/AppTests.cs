@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using JobsDashboard.Data;
+using JobsDashboard.Core;
 
 namespace JobsDashboard.Tests
 {

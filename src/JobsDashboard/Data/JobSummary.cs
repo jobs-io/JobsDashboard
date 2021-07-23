@@ -1,3 +1,5 @@
+using JobsDashboard.Core;
+
 namespace JobsDashboard.Data
 {
     public class JobSummary

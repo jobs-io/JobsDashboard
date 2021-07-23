@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace JobsDashboard
+namespace JobsDashboard.Data
 {
     public interface IDataStore
     {
