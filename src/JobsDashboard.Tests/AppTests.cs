@@ -56,11 +56,6 @@ namespace JobsDashboard.Tests
             var jobs = await GetApp().GetJobs();
 
             httpClientMock.Verify(x => x.GetAsync(source));
-            // verify jobs
-            // Assert.AreEqual(1, jobs.Count);
-            // Assert.AreEqual(data.Title, jobs[0].Title);
-            // Assert.AreEqual(data.Description, jobs[0].Description);
-            // Assert.AreEqual(data.Company, jobs[0].Company);
             VerifyJobs(jobs);
             VerifyConfig();
         }
@@ -74,13 +69,7 @@ namespace JobsDashboard.Tests
             var jobs = await GetApp().GetJobs();
 
             httpClientMock.Verify(x => x.GetAsync(source), Times.Never());
-            // Verify jobs
-            // Assert.AreEqual(1, jobs.Count);
-            // Assert.AreEqual(data.Title, jobs[0].Title);
-            // Assert.AreEqual(data.Description, jobs[0].Description);
-            // Assert.AreEqual(data.Company, jobs[0].Company);
             VerifyJobs(jobs);
-            // 
             dataStoreMock.Verify(x => x.Exists(source));
             dataStoreMock.Verify(x => x.GetJobs(source));
             VerifyConfig();
@@ -119,7 +108,6 @@ namespace JobsDashboard.Tests
         }
 
         private void VerifyConfig() {
-            // Verify config
             configMock.Verify(x => x.GetValue("path"));
             configMock.Verify(x => x.GetValue("title"));
             configMock.Verify(x => x.GetValue("description"));
