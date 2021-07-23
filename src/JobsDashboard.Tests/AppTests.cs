@@ -38,12 +38,6 @@ namespace JobsDashboard.Tests
         [Test]
         public async Task ShouldGetJobsFromSource() {
             var source = "https://my-source/jobs";
-            // var data = new {
-            //     title = "I am a little helper",
-            //     description = "I help run sql jobs",
-            //     company = "I belong to everyone"
-            // };
-
             var response = new HttpResponseMessage() {
                 StatusCode = System.Net.HttpStatusCode.OK,
                 Content = new StringContent(content)
