@@ -3,6 +3,7 @@ using Moq;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using JobsDashboard.Data;
 
 namespace JobsDashboard.Tests
 {
@@ -56,10 +57,11 @@ namespace JobsDashboard.Tests
 
             httpClientMock.Verify(x => x.GetAsync(source));
             // verify jobs
-            Assert.AreEqual(1, jobs.Count);
-            Assert.AreEqual(data.Title, jobs[0].Title);
-            Assert.AreEqual(data.Description, jobs[0].Description);
-            Assert.AreEqual(data.Company, jobs[0].Company);
+            // Assert.AreEqual(1, jobs.Count);
+            // Assert.AreEqual(data.Title, jobs[0].Title);
+            // Assert.AreEqual(data.Description, jobs[0].Description);
+            // Assert.AreEqual(data.Company, jobs[0].Company);
+            VerifyJobs(jobs);
             VerifyConfig();
         }
 
@@ -73,10 +75,12 @@ namespace JobsDashboard.Tests
 
             httpClientMock.Verify(x => x.GetAsync(source), Times.Never());
             // Verify jobs
-            Assert.AreEqual(1, jobs.Count);
-            Assert.AreEqual(data.Title, jobs[0].Title);
-            Assert.AreEqual(data.Description, jobs[0].Description);
-            Assert.AreEqual(data.Company, jobs[0].Company);
+            // Assert.AreEqual(1, jobs.Count);
+            // Assert.AreEqual(data.Title, jobs[0].Title);
+            // Assert.AreEqual(data.Description, jobs[0].Description);
+            // Assert.AreEqual(data.Company, jobs[0].Company);
+            VerifyJobs(jobs);
+            // 
             dataStoreMock.Verify(x => x.Exists(source));
             dataStoreMock.Verify(x => x.GetJobs(source));
             VerifyConfig();
@@ -105,6 +109,13 @@ namespace JobsDashboard.Tests
 
         private App GetApp() {
             return new App(httpClientMock.Object, source, dataStoreMock.Object, configMock.Object);
+        }
+
+        private void VerifyJobs(Jobs jobs) {
+            Assert.AreEqual(1, jobs.Count);
+            Assert.AreEqual(data.Title, jobs[0].Title);
+            Assert.AreEqual(data.Description, jobs[0].Description);
+            Assert.AreEqual(data.Company, jobs[0].Company);
         }
 
         private void VerifyConfig() {
