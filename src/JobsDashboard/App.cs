@@ -26,6 +26,14 @@ namespace JobsDashboard
         private HtmlReader.Reader GetHtmlReader(string html) {
             return new HtmlReader.Reader(html);
         }
+        private IDictionary<string, string> CreatedData(string content) {
+            return new Dictionary<string, string> {
+                {
+                    source,
+                    content
+                }
+            };
+        }
         public async ValueTask<Jobs> GetJobs()
         {
             if (dataStore.Exists(source))
@@ -36,14 +44,7 @@ namespace JobsDashboard
             var results = await httpClient.GetAsync(source);
             var content = await results.Content.ReadAsStringAsync();
             var reader = new HtmlReader.Reader(content);
-            this.dataStore.CreateJobs(
-                new Dictionary<string, string>() {
-                    {
-                        source, 
-                        content
-                        }
-                    }
-                );
+            this.dataStore.CreateJobs(CreatedData(content));
             return new Jobs(reader, config);
         }
     }
