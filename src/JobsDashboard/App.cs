@@ -19,7 +19,7 @@ namespace JobsDashboard
         public async ValueTask<Jobs> GetJobs()
         {
             if (dataStore.Exists(source))
-                return new Jobs(null, config);
+                return new Jobs(new HtmlReader.Reader(dataStore.GetJobs(source)), config);
             var results = await httpClient.GetAsync(source);
             var reader = new HtmlReader.Reader(await results.Content.ReadAsStringAsync());
             return new Jobs(reader, config);

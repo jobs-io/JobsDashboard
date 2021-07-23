@@ -18,6 +18,7 @@ namespace JobsDashboard.Tests
         private Mock<IHttpClient> httpClientMock;
         private Mock<IDataStore> dataStoreMock;
         private Mock<IConfiguration> configMock;
+        private string content;
 
         private Data data = new Data() {
             Title = "I am a little helper",
@@ -30,6 +31,8 @@ namespace JobsDashboard.Tests
             httpClientMock = new Mock<IHttpClient>();
             dataStoreMock = new Mock<IDataStore>();
             configMock = new Mock<IConfiguration>();
+
+            content = $"<html><body><jobs><data><title>{data.Title}</title><description>{data.Description}</description><company>{data.Company}</company></data><data><title>{data.Title}</title><description>{data.Description}</description><company>{data.Company}</company></data></jobs></body></html>";
         }
 
         [Test]
@@ -40,7 +43,6 @@ namespace JobsDashboard.Tests
             //     description = "I help run sql jobs",
             //     company = "I belong to everyone"
             // };
-            var content = $"<html><body><jobs><data><title>{data.Title}</title><description>{data.Description}</description><company>{data.Company}</company></data><data><title>{data.Title}</title><description>{data.Description}</description><company>{data.Company}</company></data></jobs></body></html>";
 
             var response = new HttpResponseMessage() {
                 StatusCode = System.Net.HttpStatusCode.OK,
@@ -68,16 +70,27 @@ namespace JobsDashboard.Tests
         }
 
         [Test]
-        public void ShouldGetJobFromDataStoreIfItExists() {
+        public async Task ShouldGetJobFromDataStoreIfItExists() {
             var source = "https://my-source/jobs";
+
+            configMock.Setup(x => x.GetValue("path")).Returns("//jobs");
+            configMock.Setup(x => x.GetValue("title")).Returns("//data/title");
+            configMock.Setup(x => x.GetValue("description")).Returns("//data/description");
+            configMock.Setup(x => x.GetValue("company")).Returns("//data/company");
 
             httpClientMock.Setup(x => x.GetAsync(source));
             dataStoreMock.Setup(x => x.Exists(source)).Returns(true);
+            dataStoreMock.Setup(x => x.GetJobs(source)).Returns(content);
             
-            new App(httpClientMock.Object, source, dataStoreMock.Object, configMock.Object).GetJobs();
+            await new App(httpClientMock.Object, source, dataStoreMock.Object, configMock.Object).GetJobs();
 
             httpClientMock.Verify(x => x.GetAsync(source), Times.Never());
             dataStoreMock.Verify(x => x.Exists(source));
+            dataStoreMock.Verify(x => x.GetJobs(source));
+            configMock.Verify(x => x.GetValue("path"));
+            configMock.Verify(x => x.GetValue("title"));
+            configMock.Verify(x => x.GetValue("description"));
+            configMock.Verify(x => x.GetValue("company"));
         }
 
         // [Test]
