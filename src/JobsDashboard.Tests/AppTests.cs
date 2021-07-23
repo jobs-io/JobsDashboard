@@ -52,7 +52,7 @@ namespace JobsDashboard.Tests
 
             httpClientMock.Setup(x => x.GetAsync(source)).Returns(Task.FromResult(response));
             
-            var jobs = await new App(httpClientMock.Object, source, dataStoreMock.Object, configMock.Object).GetJobs();
+            var jobs = await GetApp().GetJobs();
 
             httpClientMock.Verify(x => x.GetAsync(source));
             Assert.AreEqual(1, jobs.Count);
@@ -67,18 +67,11 @@ namespace JobsDashboard.Tests
 
         [Test]
         public async Task ShouldGetJobFromDataStoreIfItExists() {
-            // var source = "https://my-source/jobs";
-
-            // configMock.Setup(x => x.GetValue("path")).Returns("//jobs");
-            // configMock.Setup(x => x.GetValue("title")).Returns("//data/title");
-            // configMock.Setup(x => x.GetValue("description")).Returns("//data/description");
-            // configMock.Setup(x => x.GetValue("company")).Returns("//data/company");
-
             httpClientMock.Setup(x => x.GetAsync(source));
             dataStoreMock.Setup(x => x.Exists(source)).Returns(true);
             dataStoreMock.Setup(x => x.GetJobs(source)).Returns(content);
             
-            var jobs = await new App(httpClientMock.Object, source, dataStoreMock.Object, configMock.Object).GetJobs();
+            var jobs = await GetApp().GetJobs();
 
             httpClientMock.Verify(x => x.GetAsync(source), Times.Never());
             Assert.AreEqual(1, jobs.Count);
@@ -95,13 +88,6 @@ namespace JobsDashboard.Tests
 
         [Test]
         public async Task ShouldCreateJobIfItDoesNotExist() {
-            // var source = "https://my-source/jobs";
-
-            // configMock.Setup(x => x.GetValue("path")).Returns("//jobs");
-            // configMock.Setup(x => x.GetValue("title")).Returns("//data/title");
-            // configMock.Setup(x => x.GetValue("description")).Returns("//data/description");
-            // configMock.Setup(x => x.GetValue("company")).Returns("//data/company");
-
             var response = new HttpResponseMessage() {
                 StatusCode = System.Net.HttpStatusCode.OK,
                 Content = new StringContent(content)
@@ -112,7 +98,7 @@ namespace JobsDashboard.Tests
             dataStoreMock.Setup(x => x.CreateJobs(d));
             dataStoreMock.Setup(x => x.GetJobs(source)).Returns(content);
             
-            await new App(httpClientMock.Object, source, dataStoreMock.Object, configMock.Object).GetJobs();
+            await GetApp().GetJobs();
 
             dataStoreMock.Verify(x => x.Exists(source));
             httpClientMock.Verify(x => x.GetAsync(source));
@@ -122,6 +108,10 @@ namespace JobsDashboard.Tests
             configMock.Verify(x => x.GetValue("title"));
             configMock.Verify(x => x.GetValue("description"));
             configMock.Verify(x => x.GetValue("company"));
+        }
+
+        private App GetApp() {
+            return new App(httpClientMock.Object, source, dataStoreMock.Object, configMock.Object);
         }
     }
 }
