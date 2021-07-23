@@ -19,12 +19,14 @@ namespace JobsDashboard.Tests
         private Mock<IDataStore> dataStoreMock;
         private Mock<IConfiguration> configMock;
         private string content;
+        private string source;
 
         private Data data = new Data() {
             Title = "I am a little helper",
             Description = "I help run sql jobs",
             Company = "I belong to everyone"
         };
+
         [SetUp]
         public void Setup()
         {
@@ -33,20 +35,20 @@ namespace JobsDashboard.Tests
             configMock = new Mock<IConfiguration>();
 
             content = $"<html><body><jobs><data><title>{data.Title}</title><description>{data.Description}</description><company>{data.Company}</company></data><data><title>{data.Title}</title><description>{data.Description}</description><company>{data.Company}</company></data></jobs></body></html>";
-        }
-
-        [Test]
-        public async Task ShouldGetJobsFromSource() {
-            var source = "https://my-source/jobs";
-            var response = new HttpResponseMessage() {
-                StatusCode = System.Net.HttpStatusCode.OK,
-                Content = new StringContent(content)
-            };
+            source = "https://my-source/jobs";
 
             configMock.Setup(x => x.GetValue("path")).Returns("//jobs");
             configMock.Setup(x => x.GetValue("title")).Returns("//data/title");
             configMock.Setup(x => x.GetValue("description")).Returns("//data/description");
             configMock.Setup(x => x.GetValue("company")).Returns("//data/company");
+        }
+
+        [Test]
+        public async Task ShouldGetJobsFromSource() {
+            var response = new HttpResponseMessage() {
+                StatusCode = System.Net.HttpStatusCode.OK,
+                Content = new StringContent(content)
+            };
 
             httpClientMock.Setup(x => x.GetAsync(source)).Returns(Task.FromResult(response));
             
@@ -65,12 +67,12 @@ namespace JobsDashboard.Tests
 
         [Test]
         public async Task ShouldGetJobFromDataStoreIfItExists() {
-            var source = "https://my-source/jobs";
+            // var source = "https://my-source/jobs";
 
-            configMock.Setup(x => x.GetValue("path")).Returns("//jobs");
-            configMock.Setup(x => x.GetValue("title")).Returns("//data/title");
-            configMock.Setup(x => x.GetValue("description")).Returns("//data/description");
-            configMock.Setup(x => x.GetValue("company")).Returns("//data/company");
+            // configMock.Setup(x => x.GetValue("path")).Returns("//jobs");
+            // configMock.Setup(x => x.GetValue("title")).Returns("//data/title");
+            // configMock.Setup(x => x.GetValue("description")).Returns("//data/description");
+            // configMock.Setup(x => x.GetValue("company")).Returns("//data/company");
 
             httpClientMock.Setup(x => x.GetAsync(source));
             dataStoreMock.Setup(x => x.Exists(source)).Returns(true);
@@ -93,12 +95,12 @@ namespace JobsDashboard.Tests
 
         [Test]
         public async Task ShouldCreateJobIfItDoesNotExist() {
-            var source = "https://my-source/jobs";
+            // var source = "https://my-source/jobs";
 
-            configMock.Setup(x => x.GetValue("path")).Returns("//jobs");
-            configMock.Setup(x => x.GetValue("title")).Returns("//data/title");
-            configMock.Setup(x => x.GetValue("description")).Returns("//data/description");
-            configMock.Setup(x => x.GetValue("company")).Returns("//data/company");
+            // configMock.Setup(x => x.GetValue("path")).Returns("//jobs");
+            // configMock.Setup(x => x.GetValue("title")).Returns("//data/title");
+            // configMock.Setup(x => x.GetValue("description")).Returns("//data/description");
+            // configMock.Setup(x => x.GetValue("company")).Returns("//data/company");
 
             var response = new HttpResponseMessage() {
                 StatusCode = System.Net.HttpStatusCode.OK,
