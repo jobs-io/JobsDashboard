@@ -6,13 +6,24 @@ using System.Threading.Tasks;
 
 namespace JobsDashboard.Tests
 {
+
     public class AppTests
     {
+        private class Data {
+            public string Title { get; set; }
+            public string Description { get; set; }
+            public string Company { get; set; }
+        }
         private JobsDashboard.App app;
         private Mock<IHttpClient> httpClientMock;
         private Mock<IDataStore> dataStoreMock;
         private Mock<IConfiguration> configMock;
-    
+
+        private Data data = new Data() {
+            Title = "I am a little helper",
+            Description = "I help run sql jobs",
+            Company = "I belong to everyone"
+        };
         [SetUp]
         public void Setup()
         {
@@ -24,12 +35,12 @@ namespace JobsDashboard.Tests
         [Test]
         public async Task ShouldGetJobsFromSource() {
             var source = "https://my-source/jobs";
-            var data = new {
-                title = "I am a little helper",
-                description = "I help run sql jobs",
-                company = "I belong to everyone"
-            };
-            var content = $"<html><body><jobs><data><title>{data.title}</title><description>{data.description}</description><company>{data.company}</company></data><data><title>{data.title}</title><description>{data.description}</description><company>{data.company}</company></data></jobs></body></html>";
+            // var data = new {
+            //     title = "I am a little helper",
+            //     description = "I help run sql jobs",
+            //     company = "I belong to everyone"
+            // };
+            var content = $"<html><body><jobs><data><title>{data.Title}</title><description>{data.Description}</description><company>{data.Company}</company></data><data><title>{data.Title}</title><description>{data.Description}</description><company>{data.Company}</company></data></jobs></body></html>";
 
             var response = new HttpResponseMessage() {
                 StatusCode = System.Net.HttpStatusCode.OK,
@@ -47,27 +58,27 @@ namespace JobsDashboard.Tests
 
             httpClientMock.Verify(x => x.GetAsync(source));
             Assert.AreEqual(1, jobs.Count);
-            Assert.AreEqual(data.title, jobs[0].Title);
-            Assert.AreEqual(data.description, jobs[0].Description);
-            Assert.AreEqual(data.company, jobs[0].Company);
+            Assert.AreEqual(data.Title, jobs[0].Title);
+            Assert.AreEqual(data.Description, jobs[0].Description);
+            Assert.AreEqual(data.Company, jobs[0].Company);
             configMock.Verify(x => x.GetValue("path"));
             configMock.Verify(x => x.GetValue("title"));
             configMock.Verify(x => x.GetValue("description"));
             configMock.Verify(x => x.GetValue("company"));
         }
 
-        // [Test]
-        // public void ShouldGetJobFromDataStoreIfItExists() {
-        //     var source = "https://my-source/jobs";
+        [Test]
+        public void ShouldGetJobFromDataStoreIfItExists() {
+            var source = "https://my-source/jobs";
 
-        //     httpClientMock.Setup(x => x.GetAsync(source));
-        //     dataStoreMock.Setup(x => x.Exists(source)).Returns(true);
+            httpClientMock.Setup(x => x.GetAsync(source));
+            dataStoreMock.Setup(x => x.Exists(source)).Returns(true);
             
-        //     new App(httpClientMock.Object, source, dataStoreMock.Object).GetJobs();
+            new App(httpClientMock.Object, source, dataStoreMock.Object, configMock.Object).GetJobs();
 
-        //     httpClientMock.Verify(x => x.GetAsync(source), Times.Never());
-        //     dataStoreMock.Verify(x => x.Exists(source));
-        // }
+            httpClientMock.Verify(x => x.GetAsync(source), Times.Never());
+            dataStoreMock.Verify(x => x.Exists(source));
+        }
 
         // [Test]
         // public void ShouldCreateJobIfItDoesNotExist() {
