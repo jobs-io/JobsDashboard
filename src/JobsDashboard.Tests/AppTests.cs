@@ -60,11 +60,6 @@ namespace JobsDashboard.Tests
             Assert.AreEqual(data.Title, jobs[0].Title);
             Assert.AreEqual(data.Description, jobs[0].Description);
             Assert.AreEqual(data.Company, jobs[0].Company);
-            // Verify config
-            // configMock.Verify(x => x.GetValue("path"));
-            // configMock.Verify(x => x.GetValue("title"));
-            // configMock.Verify(x => x.GetValue("description"));
-            // configMock.Verify(x => x.GetValue("company"));
             VerifyConfig();
         }
 
@@ -84,12 +79,7 @@ namespace JobsDashboard.Tests
             Assert.AreEqual(data.Company, jobs[0].Company);
             dataStoreMock.Verify(x => x.Exists(source));
             dataStoreMock.Verify(x => x.GetJobs(source));
-            // Verify Config
             VerifyConfig();
-            // configMock.Verify(x => x.GetValue("path"));
-            // configMock.Verify(x => x.GetValue("title"));
-            // configMock.Verify(x => x.GetValue("description"));
-            // configMock.Verify(x => x.GetValue("company"));
         }
 
         [Test]
@@ -110,12 +100,7 @@ namespace JobsDashboard.Tests
             httpClientMock.Verify(x => x.GetAsync(source));
             dataStoreMock.Verify(x => x.CreateJobs(d));
             dataStoreMock.Verify(x => x.GetJobs(source), Times.Never());
-            // Verify config
             VerifyConfig();
-            // configMock.Verify(x => x.GetValue("path"));
-            // configMock.Verify(x => x.GetValue("title"));
-            // configMock.Verify(x => x.GetValue("description"));
-            // configMock.Verify(x => x.GetValue("company"));
         }
 
         private App GetApp() {
