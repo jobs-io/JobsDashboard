@@ -6,7 +6,8 @@ namespace JobsDashboard.Console
     {
         static void Main(string[] args)
         {
-            System.Console.WriteLine("Hello World!");
+            foreach(var arg in args)
+                System.Console.WriteLine(arg);
         }
     }
 }
