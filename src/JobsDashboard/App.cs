@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using JobsDashboard.Data;
 
 namespace JobsDashboard
@@ -21,7 +22,9 @@ namespace JobsDashboard
             if (dataStore.Exists(source))
                 return new Jobs(new HtmlReader.Reader(dataStore.GetJobs(source)), config);
             var results = await httpClient.GetAsync(source);
-            var reader = new HtmlReader.Reader(await results.Content.ReadAsStringAsync());
+            var content = await results.Content.ReadAsStringAsync();
+            var reader = new HtmlReader.Reader(content);
+            this.dataStore.CreateJobs(new Dictionary<string, string>() {{source, content}});
             return new Jobs(reader, config);
         }
     }
