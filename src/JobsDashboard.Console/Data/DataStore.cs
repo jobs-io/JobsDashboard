@@ -22,7 +22,7 @@ namespace JobsDashboard.Console.Data {
         }
 
         public string GetJobs (string source) {
-            throw new System.NotImplementedException ();
+            return this.data[source];
         }
     }
 }
