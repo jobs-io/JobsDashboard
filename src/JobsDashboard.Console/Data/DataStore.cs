@@ -18,7 +18,7 @@ namespace JobsDashboard.Console.Data {
         }
 
         public bool Exists (string source) {
-            throw new System.NotImplementedException ();
+            return this.data.ContainsKey(source);
         }
 
         public string GetJobs (string source) {
