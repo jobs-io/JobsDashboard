@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JobsDashboard.Core;
 
 namespace JobsDashboard.Console.Core
 {
